@@ -1,12 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
-# Optional: configure Chrome options
 chrome_options = Options()
-chrome_options.add_argument("--start-maximized")  # open browser maximized
+chrome_options.add_argument("--start-maximized")
 
+service = Service(ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=chrome_options)
 
 # Step 1: Open the base URL to set the domain context for cookies
@@ -25,6 +26,6 @@ for cookie in cookies:
 driver.refresh()
 
 # Now you can interact with the site as the logged-in user
-time.sleep(10)  # Keep browser open for 10 seconds to inspect manually
+time.sleep(50)  # Keep browser open for 50 seconds to inspect manually
 
 driver.quit()
