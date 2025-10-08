@@ -1,4 +1,5 @@
 import requests
+import os
 
 cookies = {
     'session_id': 'iiv0krhcgeksxaeq2mc3n8vybgimdb96',
@@ -12,22 +13,31 @@ headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
 }
 
-response = requests.get(url, cookies=cookies, headers=headers)
+try:
+    response = requests.get(url, cookies=cookies, headers=headers)
+    print(f"Status code: {response.status_code}")
 
-print(f"Status code: {response.status_code}")
+    html = response.text.lower()
 
-html = response.text.lower()
+    # Check for common logged-in indicators
+    indicators = ['logout', 'sign out', 'my account', 'profile', 'welcome', 'username']
+    found = [word for word in indicators if word in html]
 
-# Check for common logged-in indicators
-indicators = ['logout', 'sign out', 'my account', 'profile', 'welcome', 'username']
+    if found:
+        print("Possible logged-in session detected. Found keywords:", found)
+    else:
+        print("No logged-in indicators found. Session might be invalid or expired.")
 
-found = [word for word in indicators if word in html]
+    # Ensure folder exists
+    folder = 'responses'
+    os.makedirs(folder, exist_ok=True)
 
-if found:
-    print("Possible logged-in session detected. Found keywords:", found)
-else:
-    print("No logged-in indicators found. Session might be invalid or expired.")
+    # Write response to file inside the folder, overwriting if exists
+    file_path = os.path.join(folder, 'response.html')
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(response.text)
 
-# Optional: save full HTML to a file for manual inspection
-with open('response.html', 'w', encoding='utf-8') as f:
-    f.write(response.text)
+    print(f"Response HTML saved to {file_path}")
+
+except Exception as e:
+    print(f"An error occurred: {e}")
